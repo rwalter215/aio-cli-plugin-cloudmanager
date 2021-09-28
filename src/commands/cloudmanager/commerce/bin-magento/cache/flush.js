@@ -18,7 +18,7 @@ const commonCommerceFlags = require('../../../../../common-commerce-flags')
 const commonCommerceArgs = require('../../../../../common-commerce-args')
 
 class CacheFlushCommand extends BaseCommerceCliCommand {
-  async run() {
+  async run () {
     const { args, flags, argv } = this.parse(CacheFlushCommand)
 
     const programId = getProgramId(flags)

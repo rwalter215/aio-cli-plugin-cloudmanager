@@ -17,7 +17,7 @@ const commonCommerceFlags = require('../../../../../common-commerce-flags')
 const commonArgs = require('../../../../../common-args')
 
 class MaintenanceStatusCommand extends BaseCommerceCliCommand {
-  async run() {
+  async run () {
     const { args, flags } = this.parse(MaintenanceStatusCommand)
 
     const programId = getProgramId(flags)
