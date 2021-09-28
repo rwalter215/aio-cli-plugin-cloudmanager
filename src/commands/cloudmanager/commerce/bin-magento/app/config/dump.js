@@ -17,7 +17,7 @@ const commonArgs = require('../../../../../../common-args')
 const commonCommerceFlags = require('../../../../../../common-commerce-flags')
 
 class AppConfigDumpCommand extends BaseCommerceCliCommand {
-  async run() {
+  async run () {
     const { args, flags, argv } = this.parse(AppConfigDumpCommand)
 
     const programId = getProgramId(flags)

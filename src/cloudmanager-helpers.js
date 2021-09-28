@@ -55,7 +55,7 @@ const GROUP_DISPLAY_NAMES = Object.keys(GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAP
 
 let authMode = SERVICE_ACCOUNT
 
-function toJson(item) {
+function toJson (item) {
   let c = item
   if (typeof c === 'string') {
     c = JSON.parse(c)
@@ -64,13 +64,13 @@ function toJson(item) {
   return c
 }
 
-function getBaseUrl() {
+function getBaseUrl () {
   const configStr = Config.get('cloudmanager')
 
   return (configStr && toJson(configStr).base_url) || 'https://cloudmanager.adobe.io'
 }
 
-function getProgramId(flags) {
+function getProgramId (flags) {
   const programId = flags.programId || Config.get('cloudmanager_programid')
   if (!programId) {
     throw new validationCodes.MISSING_PROGRAM_ID()
@@ -78,7 +78,7 @@ function getProgramId(flags) {
   return programId
 }
 
-function getOutputFormat(flags) {
+function getOutputFormat (flags) {
   if (flags.json) {
     return 'json'
   }
@@ -91,7 +91,7 @@ function getOutputFormat(flags) {
  * This doesn't work quite correctly -- when output in both JSON and YAML, the result is a JSON-encoded array in a string whereas one
  * would expect a JSON or YAML. This seems like a bug in oclif that will hopefully get addressed.
  */
-function columnWithArray(key, options, flags) {
+function columnWithArray (key, options, flags) {
   const mapperFunction = options.mapperFunction || (i => i)
   if (flags.json || flags.yaml) {
     return options
@@ -106,7 +106,7 @@ function columnWithArray(key, options, flags) {
   }
 }
 
-function createKeyValueObjectFromFlag(flag) {
+function createKeyValueObjectFromFlag (flag) {
   if (flag.length % 2 === 0) {
     let i
     const tempObj = {}
@@ -131,7 +131,7 @@ function createKeyValueObjectFromFlag(flag) {
   }
 }
 
-function sanitizeEnvironmentId(environmentId) {
+function sanitizeEnvironmentId (environmentId) {
   let envId = environmentId
   if (envId && envId.startsWith('e')) {
     envId = envId.substring(1)
@@ -139,19 +139,19 @@ function sanitizeEnvironmentId(environmentId) {
   return envId
 }
 
-function getDefaultEnvironmentId(flags) {
+function getDefaultEnvironmentId (flags) {
   return Config.get('cloudmanager_environmentid')
 }
 
-function getCliOrgId() {
+function getCliOrgId () {
   return Config.get('cloudmanager_orgid') || Config.get('console.org.code')
 }
 
-function setCliOrgId(orgId, local) {
+function setCliOrgId (orgId, local) {
   Config.set('cloudmanager_orgid', orgId, local)
 }
 
-async function initSdk(contextName) {
+async function initSdk (contextName) {
   let apiKey
   let orgId
 
@@ -177,7 +177,7 @@ async function initSdk(contextName) {
   return await init(orgId, apiKey, accessToken, baseUrl)
 }
 
-function formatAction(stepState) {
+function formatAction (stepState) {
   if (stepState.action === 'deploy') {
     return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
   } else if (stepState.action === 'contentAudit') {
@@ -187,33 +187,33 @@ function formatAction(stepState) {
   }
 }
 
-function formatTime(property) {
+function formatTime (property) {
   return (object) => object[property] ? moment(object[property]).format('LLL') : ''
 }
 
-function formatDuration(object) {
+function formatDuration (object) {
   return object.startedAt && object.finishedAt
     ? moment.duration(moment(object.finishedAt).diff(object.startedAt)).humanize()
     : ''
 }
 
-function formatStatus(object) {
+function formatStatus (object) {
   return _.startCase(object.status.toLowerCase())
 }
 
-function enableCliAuth() {
+function enableCliAuth () {
   authMode = CLI_AUTH
 }
 
-function disableCliAuth() {
+function disableCliAuth () {
   authMode = undefined
 }
 
-function isCliAuthEnabled() {
+function isCliAuthEnabled () {
   return authMode === CLI_AUTH
 }
 
-async function getCloudManagerAuthorizedOrganizations(contextName) {
+async function getCloudManagerAuthorizedOrganizations (contextName) {
   if (isCliAuthEnabled()) {
     contextName = CLI
   } else {
@@ -238,11 +238,11 @@ async function getCloudManagerAuthorizedOrganizations(contextName) {
   })
 }
 
-function isCloudManagerGroupDisplayName(groupDisplayName) {
+function isCloudManagerGroupDisplayName (groupDisplayName) {
   return GROUP_DISPLAY_NAMES.includes(groupDisplayName)
 }
 
-function getCloudManagerRoles(org) {
+function getCloudManagerRoles (org) {
   if (!org.groups) {
     return []
   }
@@ -250,11 +250,11 @@ function getCloudManagerRoles(org) {
   return _.uniq(roles)
 }
 
-function getFullOrgIdentity(org) {
+function getFullOrgIdentity (org) {
   return `${org.orgRef.ident}@${org.orgRef.authSrc}`
 }
 
-async function getActiveOrganizationId(contextName) {
+async function getActiveOrganizationId (contextName) {
   if (isCliAuthEnabled()) {
     return getCliOrgId()
   } else {
@@ -267,7 +267,7 @@ async function getActiveOrganizationId(contextName) {
   }
 }
 
-function handleError(_error, errorFn) {
+function handleError (_error, errorFn) {
   if (cli.action.running) {
     cli.action.stop('failed')
   }
@@ -296,7 +296,7 @@ function handleError(_error, errorFn) {
   })
 }
 
-function getFormattedFlags(flags, Command) {
+function getFormattedFlags (flags, Command) {
   const commonFlagKeys = (Command && Command.flags) ? Object.keys(Command.flags).filter(flag => Command.flags[flag].common) : []
 
   return Object.keys(flags).filter(flag => !commonFlagKeys.includes(flag)).map(flag => {
