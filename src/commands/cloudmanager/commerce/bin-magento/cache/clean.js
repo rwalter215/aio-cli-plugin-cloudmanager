@@ -18,7 +18,7 @@ const commonCommerceFlags = require('../../../../../common-commerce-flags')
 const commonCommerceArgs = require('../../../../../common-commerce-args')
 
 class CacheCleanCommand extends BaseCommerceCliCommand {
-  async run () {
+  async run() {
     const { args, flags, argv } = this.parse(CacheCleanCommand)
 
     const programId = getProgramId(flags)

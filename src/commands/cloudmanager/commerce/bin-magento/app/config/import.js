@@ -17,7 +17,7 @@ const commonArgs = require('../../../../../../common-args')
 const commonCommerceFlags = require('../../../../../../common-commerce-flags')
 
 class AppConfigImportCommand extends BaseCommerceCliCommand {
-  async run () {
+  async run() {
     const { args, flags } = this.parse(AppConfigImportCommand)
 
     const programId = getProgramId(flags)
